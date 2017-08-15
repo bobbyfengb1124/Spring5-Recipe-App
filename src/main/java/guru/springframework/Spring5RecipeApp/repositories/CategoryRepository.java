@@ -4,6 +4,8 @@
  */
 package guru.springframework.Spring5RecipeApp.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.repository.CrudRepository;
 
 import guru.springframework.Spring5RecipeApp.domain.Category;
@@ -13,4 +15,5 @@ import guru.springframework.Spring5RecipeApp.domain.Category;
  */
 public interface CategoryRepository extends CrudRepository<Category, Long> {
 
+	Optional<Category> findByDescription(String description);
 }
