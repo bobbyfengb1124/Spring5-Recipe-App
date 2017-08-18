@@ -12,11 +12,13 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 
  */
 @Entity
+@EqualsAndHashCode(exclude = { "recipe" })
 @Data
 public class Notes {
 	@Id
