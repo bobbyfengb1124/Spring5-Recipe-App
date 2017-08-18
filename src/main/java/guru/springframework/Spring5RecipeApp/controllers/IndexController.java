@@ -9,10 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import guru.springframework.Spring5RecipeApp.services.RecipeService;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
  */
+@Slf4j
 @Controller
 public class IndexController {
 
@@ -49,6 +51,8 @@ public class IndexController {
 		// System.out.println("Cat Id is:" + categoryOptional.get().getId());
 		// System.out.println("UOM Id is:" +
 		// unitOfMeasureOptional.get().getId());
+
+		log.debug("Getting Index page");
 
 		model.addAttribute("recipes", recipeService.getRecipes());
 
