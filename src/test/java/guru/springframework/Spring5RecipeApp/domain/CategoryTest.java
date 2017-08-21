@@ -5,7 +5,6 @@
 package guru.springframework.Spring5RecipeApp.domain;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
@@ -46,24 +45,26 @@ public class CategoryTest {
 		assertEquals(idValue, category.getId());
 	}
 
-	/**
-	 * Test method for
-	 * {@link guru.springframework.Spring5RecipeApp.domain.Category#getDescription()}
-	 * .
-	 */
-	@Test
-	public void testGetDescription() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for
-	 * {@link guru.springframework.Spring5RecipeApp.domain.Category#getRecipes()}
-	 * .
-	 */
-	@Test
-	public void testGetRecipes() {
-		fail("Not yet implemented");
-	}
+	// /**
+	// * Test method for
+	// * {@link
+	// guru.springframework.Spring5RecipeApp.domain.Category#getDescription()}
+	// * .
+	// */
+	// @Test
+	// public void testGetDescription() {
+	// fail("Not yet implemented");
+	// }
+	//
+	// /**
+	// * Test method for
+	// * {@link
+	// guru.springframework.Spring5RecipeApp.domain.Category#getRecipes()}
+	// * .
+	// */
+	// @Test
+	// public void testGetRecipes() {
+	// fail("Not yet implemented");
+	// }
 
 }
