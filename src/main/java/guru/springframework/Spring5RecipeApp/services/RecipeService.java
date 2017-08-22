@@ -14,4 +14,6 @@ import guru.springframework.Spring5RecipeApp.domain.Recipe;
 public interface RecipeService {
 
 	Set<Recipe> getRecipes();
+
+	Recipe findById(long l);
 }
