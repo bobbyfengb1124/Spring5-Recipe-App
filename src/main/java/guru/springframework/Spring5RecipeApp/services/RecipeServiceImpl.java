@@ -10,6 +10,9 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import guru.springframework.Spring5RecipeApp.commands.RecipeCommand;
+import guru.springframework.Spring5RecipeApp.converters.RecipeCommandToRecipe;
+import guru.springframework.Spring5RecipeApp.converters.RecipeToRecipeCommand;
 import guru.springframework.Spring5RecipeApp.domain.Recipe;
 import guru.springframework.Spring5RecipeApp.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +25,19 @@ import lombok.extern.slf4j.Slf4j;
 public class RecipeServiceImpl implements RecipeService {
 
 	private final RecipeRepository recipeRepository;
+	private RecipeCommandToRecipe recipeCommandToRecipe;
+	private RecipeToRecipeCommand recipeToRecipeCommand;
 
 	/**
 	 * @param recipeRepository
+	 * @param recipeCommandToRecipe
+	 * @param recipeToRecipeCommand
 	 */
-	public RecipeServiceImpl(RecipeRepository recipeRepository) {
+	public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipeCommandToRecipe,
+			RecipeToRecipeCommand recipeToRecipeCommand) {
 		this.recipeRepository = recipeRepository;
+		this.recipeCommandToRecipe = recipeCommandToRecipe;
+		this.recipeToRecipeCommand = recipeToRecipeCommand;
 	}
 
 	/*
@@ -52,6 +62,15 @@ public class RecipeServiceImpl implements RecipeService {
 			throw new RuntimeException("Recipe Not Found!");
 		}
 		return r.get();
+	}
+
+	@Override
+	public RecipeCommand saveRecipeCommand(RecipeCommand command) {
+		Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
+
+		Recipe savedRecipe = recipeRepository.save(detachedRecipe);
+		log.debug("Saved RecipeId:" + savedRecipe.getId());
+		return recipeToRecipeCommand.convert(savedRecipe);
 	}
 
 }

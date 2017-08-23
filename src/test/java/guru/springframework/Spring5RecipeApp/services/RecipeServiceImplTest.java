@@ -22,6 +22,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import guru.springframework.Spring5RecipeApp.converters.RecipeCommandToRecipe;
+import guru.springframework.Spring5RecipeApp.converters.RecipeToRecipeCommand;
 import guru.springframework.Spring5RecipeApp.domain.Recipe;
 import guru.springframework.Spring5RecipeApp.repositories.RecipeRepository;
 
@@ -35,6 +37,12 @@ public class RecipeServiceImplTest {
 	@Mock
 	RecipeRepository recipeRepository;
 
+	@Mock
+	RecipeToRecipeCommand recipeToRecipeCommand;
+
+	@Mock
+	RecipeCommandToRecipe recipeCommandToRecipe;
+
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -42,7 +50,7 @@ public class RecipeServiceImplTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 
-		recipeService = new RecipeServiceImpl(recipeRepository);
+		recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
 	}
 
 	/**

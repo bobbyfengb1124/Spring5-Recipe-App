@@ -6,6 +6,7 @@ package guru.springframework.Spring5RecipeApp.services;
 
 import java.util.Set;
 
+import guru.springframework.Spring5RecipeApp.commands.RecipeCommand;
 import guru.springframework.Spring5RecipeApp.domain.Recipe;
 
 /**
@@ -16,4 +17,6 @@ public interface RecipeService {
 	Set<Recipe> getRecipes();
 
 	Recipe findById(long l);
+
+	RecipeCommand saveRecipeCommand(RecipeCommand command);
 }
