@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import guru.springframework.Spring5RecipeApp.commands.RecipeCommand;
 import guru.springframework.Spring5RecipeApp.converters.RecipeCommandToRecipe;
@@ -71,6 +72,12 @@ public class RecipeServiceImpl implements RecipeService {
 		Recipe savedRecipe = recipeRepository.save(detachedRecipe);
 		log.debug("Saved RecipeId:" + savedRecipe.getId());
 		return recipeToRecipeCommand.convert(savedRecipe);
+	}
+
+	@Override
+	@Transactional
+	public RecipeCommand findCommandById(Long long1) {
+		return recipeToRecipeCommand.convert(findById(long1));
 	}
 
 }

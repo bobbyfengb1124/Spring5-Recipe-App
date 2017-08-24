@@ -6,6 +6,7 @@ package guru.springframework.Spring5RecipeApp.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -16,12 +17,12 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import guru.springframework.Spring5RecipeApp.commands.RecipeCommand;
 import guru.springframework.Spring5RecipeApp.converters.RecipeCommandToRecipe;
 import guru.springframework.Spring5RecipeApp.converters.RecipeToRecipeCommand;
 import guru.springframework.Spring5RecipeApp.domain.Recipe;
@@ -53,13 +54,6 @@ public class RecipeServiceImplTest {
 		recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void getRecipeByIdTest() throws Exception {
 		Recipe recipe = new Recipe();
@@ -71,6 +65,26 @@ public class RecipeServiceImplTest {
 		Recipe r = recipeService.findById(1L);
 
 		assertNotNull("Null recipe returned", r);
+		verify(recipeRepository, times(1)).findById(anyLong());
+		verify(recipeRepository, never()).findAll();
+	}
+
+	@Test
+	public void getRecipeCommandByIdTest() throws Exception {
+		Recipe recipe = new Recipe();
+		recipe.setId(1L);
+		Optional<Recipe> recipeOptional = Optional.of(recipe);
+
+		when(recipeRepository.findById(any())).thenReturn(recipeOptional);
+
+		RecipeCommand recipeCommand = new RecipeCommand();
+		recipeCommand.setId(1L);
+
+		when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
+
+		RecipeCommand commandById = recipeService.findCommandById(1L);
+
+		assertNotNull("Null recipe returned", commandById);
 		verify(recipeRepository, times(1)).findById(anyLong());
 		verify(recipeRepository, never()).findAll();
 	}
@@ -92,6 +106,7 @@ public class RecipeServiceImplTest {
 
 		assertEquals(recipes.size(), 1);
 		verify(recipeRepository, times(1)).findAll();
+		verify(recipeRepository, never()).findById(anyLong());
 	}
 
 }
