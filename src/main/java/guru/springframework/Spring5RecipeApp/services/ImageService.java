@@ -4,11 +4,13 @@
  */
 package guru.springframework.Spring5RecipeApp.services;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  * 
  */
 public interface ImageService {
 
-	void saveImageFile(long anyLong, Object any);
+	void saveImageFile(Long recipeId, MultipartFile file);
 
 }
