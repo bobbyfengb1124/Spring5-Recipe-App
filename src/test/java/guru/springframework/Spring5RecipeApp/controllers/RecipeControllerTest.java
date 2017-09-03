@@ -26,6 +26,8 @@ import org.springframework.ui.Model;
 
 import guru.springframework.Spring5RecipeApp.commands.RecipeCommand;
 import guru.springframework.Spring5RecipeApp.domain.Recipe;
+import guru.springframework.Spring5RecipeApp.exceptions.NotFoundException;
+import guru.springframework.Spring5RecipeApp.repositories.RecipeRepository;
 import guru.springframework.Spring5RecipeApp.services.RecipeService;
 
 /**
@@ -34,6 +36,9 @@ import guru.springframework.Spring5RecipeApp.services.RecipeService;
 public class RecipeControllerTest {
 
 	RecipeController controller;
+
+	@Mock
+	RecipeRepository recipeRepository;
 
 	@Mock
 	RecipeService recipeService;
@@ -119,6 +124,17 @@ public class RecipeControllerTest {
 				.andExpect(view().name("redirect:/"));
 
 		verify(recipeService, times(1)).deleteById(anyLong());
+	}
+
+	@Test
+	public void testGetRecipeNotFound() throws Exception {
+
+		Recipe recipe = new Recipe();
+		recipe.setId(1L);
+
+		when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+		mockMvc.perform(get("/recipe/1/show")).andExpect(status().isNotFound());
 	}
 
 }

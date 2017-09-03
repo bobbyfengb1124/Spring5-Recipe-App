@@ -26,6 +26,7 @@ import guru.springframework.Spring5RecipeApp.commands.RecipeCommand;
 import guru.springframework.Spring5RecipeApp.converters.RecipeCommandToRecipe;
 import guru.springframework.Spring5RecipeApp.converters.RecipeToRecipeCommand;
 import guru.springframework.Spring5RecipeApp.domain.Recipe;
+import guru.springframework.Spring5RecipeApp.exceptions.NotFoundException;
 import guru.springframework.Spring5RecipeApp.repositories.RecipeRepository;
 
 /**
@@ -119,5 +120,16 @@ public class RecipeServiceImplTest {
 		recipeService.deleteById(idToDelete);
 
 		verify(recipeRepository, times(1)).deleteById(anyLong());
+	}
+
+	@Test(expected = NotFoundException.class)
+	public void getRecipeByIdTestNotFound() {
+
+		Optional<Recipe> recipeOptional = Optional.empty();
+		when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+		Recipe recipeReturn = recipeService.findById(1L);
+
+		// should go boom
 	}
 }
