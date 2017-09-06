@@ -4,9 +4,12 @@
  */
 package guru.springframework.Spring5RecipeApp.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class RecipeController {
 	private final RecipeService recipeService;
+	private static final String RECIPE_RECIPEFORM_URL = "recipe/recipeform";
 
 	/**
 	 * @param recipeService
@@ -74,7 +78,16 @@ public class RecipeController {
 
 	@PostMapping
 	@RequestMapping("recipe")
-	public String saveOrUpdate(@ModelAttribute RecipeCommand command) {
+	public String saveOrUpdate(@Valid @ModelAttribute RecipeCommand command, BindingResult bindingResult) {
+
+		if (bindingResult.hasErrors()) {
+			bindingResult.getAllErrors().forEach(objectError -> {
+				log.error(objectError.toString());
+			});
+
+			return RECIPE_RECIPEFORM_URL;
+		}
+
 		RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
 
 		return "redirect:/recipe/" + savedCommand.getId() + "/show";
