@@ -80,6 +80,8 @@ public class RecipeController {
 	@RequestMapping("recipe")
 	public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command, BindingResult bindingResult) {
 
+		System.out.println(command.getCookTime());
+
 		if (bindingResult.hasErrors()) {
 			bindingResult.getAllErrors().forEach(objectError -> {
 				log.error(objectError.toString());
